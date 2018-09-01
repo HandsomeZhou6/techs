@@ -1,0 +1,233 @@
+2018/5/31
+
+Java基础
+数组中的排序问题(笔试或者机试，前者可能性更大)
+	冒泡排序、插入排序、选择排序。
+产生死锁的原因和解决办法
+IO流，了解常见的几个流对象以及基本的流操作即可，被机试的可能性比较小。
+
+
+Web基础 
+http协议(定义、常见的请求头以及响应头<功能>、状态码)
+tomcat(目录结构<存放的内容以及配置文件里面能做哪些工作>、常见配置;有能力者可以了解一下tomcat的原理<启动加载问题>)
+filter(生命周期、常见应用、dofilter里面的参数、应用场景)
+
+cookie/session(概念的理解；生命周期，session创建的时期，相关方法的使用)
+什么叫Cookie
+	Cookie翻译成中文是小甜点，小饼干的意思。在HTTP中它表示服务器送给客户端浏览器的小甜点。
+	其实Cookie就是一个键和一个值构成的，随着服务器端的响应发送给客户端浏览器。
+	然后客户端浏览器会把Cookie保存起来，当下一次再访问服务器时把Cookie再发送给服务器。
+	
+	Cookie是由服务器创建，然后通过响应发送给客户端的一个键值对。客户端会保存Cookie，
+	并会标注出Cookie的来源（哪个服务器的Cookie）。当客户端向服务器发出请求时会把所有这个服务器Cookie包含在请求中发送给服务器，
+	这样服务器就可以识别客户端了！
+
+	注意，不同浏览器之间是不共享Cookie的。
+
+什么是HttpSesssion
+	javax.servlet.http.HttpSession接口表示一个会话，我们可以把一个会话内需要共享的数据保存到HttSession对象中！	
+	session底层是依赖Cookie的！我们来理解一下session的原理吧！
+	当我首次去银行时，因为还没有账号，所以需要开一个账号，我获得的是银行卡，
+	而银行这边的数据库中留下了我的账号，我的钱是保存在银行的账号中，而我带走的是我的卡号。
+	当我再次去银行时，只需要带上我的卡，而无需再次开一个账号了。只要带上我的卡，那么我在银行操作的一定是我的账号！
+
+	当首次使用session时，服务器端要创建session，session是保存在服务器端，
+	而给客户端的session的id（一个cookie中保存了sessionId）。客户端带走的是sessionId，而数据是保存在session中。
+	当客户端再次访问服务器时，在请求中会带上sessionId，而服务器会通过sessionId找到对应的session，而无需再创建新的session。
+
+	session保存在服务器，而sessionId通过Cookie发送给客户端，但这个Cookie的生命不-1，即只在浏览器内存中存在，
+	也就是说如果用户关闭了浏览器，那么这个Cookie就丢失了。
+	当用户再次打开浏览器访问服务器时，就不会有sessionId发送给服务器，那么服务器会认为你没有session，
+	所以服务器会创建一个session，并在响应中把sessionId中到Cookie中发送给客户端。
+
+	你可能会说，那原来的session对象会怎样？当一个session长时间没人使用的话，服务器会把session删除了！
+	这个时长在Tomcat中配置是30分钟，可以在${CATALANA}/conf/web.xml找到这个配置，当然你也可以在自己的web.xml中覆盖这个配置！
+
+如果客户端浏览器关闭了Cookie呢？那么session是不是就会不存在了呢？
+	URL重写：在每个页面中的每个链接和表单中都添加名为jSessionId的参数，值为当前sessionid。
+	当用户点击链接或提交表单时也服务器可以通过获取jSessionId这个参数来得到客户端的sessionId，找到sessoin对象。
+	使用response.encodeURL()更加“智能”，它会判断客户端浏览器是否禁用了Cookie，
+	如果禁用了，那么这个方法在URL后面追加jsessionid，否则不会追加。
+
+如何防止表单重复提交
+	使用令牌机制
+
+
+框架
+拦截器与过滤器的区别
+过滤器的应用场景：
+	执行目标资源之前做预处理工作，例如设置编码，通常都会放行，只是在目标资源执行之前做一些准备工作；
+	通过条件判断是否放行，例如校验当前用户是否已经登录，或者用户IP是否已经被禁用；
+	在目标资源执行后，做一些后续的特殊处理工作，例如把目标资源输出的数据进行处理；
+	
+	设置编码、统计网站访问次数
+	
+	
+	
+	
+一级缓存和二级缓存
+spring(springIOC和DI；生命周期；Bean注入属性的方式；aop极其相关名词解释；核心类；applicationContext与beanFactory的区别；bean实例化有哪些方式)
+
+	springIOC：手动创建对象的控制权，交由Spring框架管理；DI在Spring框架负责创建Bean对象时，动态的将依赖对象注入到Bean组件
+	
+	applicationContext与beanFactory的区别：
+	①ApplicationContext 接口继承BeanFactory接口，Spring核心工厂是BeanFactory ,BeanFactory采取延迟加载，第一次getBean时才会初始化Bean, ApplicationContext是会在加载配置文件时初始化Bean。
+    ②ApplicationContext是对BeanFactory扩展，它可以进行国际化处理、事件传递和bean自动装配以及各种不同应用层的Context实现 
+	开发中基本都在使用ApplicationContext, web项目使用WebApplicationContext ，很少用到BeanFactory
+
+	bean实例化有哪些方式：
+	使用类构造器实例化(默认无参数)	
+	<bean id="bean1" class="cn.itcast.spring.b_instance.Bean1"></bean>
+	使用静态工厂方法实例化(简单工厂模式)	
+	<bean id="bean2" class="cn.itcast.spring.b_instance.Bean2Factory" factory-method="getBean2"></bean>
+	使用实例工厂方法实例化(工厂方法模式)	
+	<bean id="bean3Factory" class="cn.itcast.spring.b_instance.Bean3Factory"></bean>
+	<bean id="bean3" factory-bean="bean3Factory" factory-method="getBean3"></bean>
+	
+	简单的说一下spring的生命周期
+	在配置 <bean> 元素，通过 init-method 指定Bean的初始化方法，通过 destroy-method 指定Bean销毁方法
+	（destroy-method 只对 scope="singleton"有效；销毁方法，必须关闭ApplicationContext对象(手动调用)，才会被调用）
+	
+	bean初始化
+    有两种方式初始化:
+	A.在配置文件中通过指定init-method属性来完成
+	B.实现org.springframwork.beans.factory.InitializingBean接口
+	bean销毁
+	销毁有两种方式
+	A.使用配置文件指定的destroy-method属性
+	B.实现org.springframwork.bean.factory.DisposeableBean接口
+	
+	Spring的核心类有哪些，各有什么作用？
+	BeanFactory：产生一个新的实例，可以实现单例模式
+	BeanWrapper：提供统一的get及set方法
+	ApplicationContext:提供框架的实现，包括BeanFactory的所有功能
+	
+	Spring如何处理线程并发问题
+		使用ThreadLocal解决线程安全问题。
+		对于多线程资源共享的问题，同步机制采用了“以时间换空间”的方式，而ThreadLocal采用了“以空间换时间”的方式。
+		前者仅提供一份变量，让不同的线程排队访问，而后者为每一个线程都提供了一份变量，因此可以同时访问而互不影响。
+		ThreadLocal提供了线程安全的共享对象，在编写多线程代码时，可以把不安全的变量封装进ThreadLocal。
+	
+	Spring的事物管理
+	防止出现脏数据，防止数据库数据出现问题
+	spring提供的事务管理可以分为两类：编程式的和声明式的。编程式的，比较灵活，但是代码量大，存在重复的代码比较多；声明式的比编程式的更灵活。
+	
+	通知有哪些类型
+	前置通知
+	返回后通知
+	抛出异常后通知
+	后置通知
+	环绕通知
+	
+	乱码问题如何处理
+	在web.xml中加入编码过滤配置可以解决post请求乱码问题。
+	
+	对于get请求中文参数出现乱码解决方法有两个：
+	修改tomcat配置文件添加编码与工程编码一致，如下：
+	<ConnectorURIEncoding="utf-8" connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
+	对参数进行重新编码：
+	String userName = new String(request.getParamter("userName").getBytes("ISO8859-1"),"utf-8")
+	ISO8859-1是tomcat默认编码，需要将tomcat编码后的内容按utf-8编码
+
+	简单的谈一下SpringMVC的工作流程
+	1、用户发送请求至中央控制器DispatcherServlet 
+	2、中央控制器DispatcherServlet收到请求调用处理器映射器
+	3、处理器映射器HandlerMapping找到处理器并生成处理器对象及处理器拦截器返回给DispatcherServlet。 
+	4、DispatcherServlet调用处理器适配器HandlerAdapter经过适配调用具体的后端控制器Controller。
+	6、后端控制器Controller执行完成返回ModelAndView传给处理器适配器HandlerAdapter
+	7、处理器适配器HandlerAdapter将ModelAndView返回给DispatcherServlet 
+	8、DispatcherServlet将ModelAndView传给视图解析器ViewReslover 
+	9、ViewReslover解析后返回具体View 
+	10、DispatcherServlet根据View进行渲染视图（即将模型数据填充至视图中）
+	11、DispatcherServlet响应用户
+
+	
+Mybatis相关知识
+
+1.JDBC编程有哪些不足之处，MyBatis是如何解决这些问题的？
+① 数据库链接创建、释放频繁造成系统资源浪费从而影响系统性能，如果使用数据库链接池可解决此问题。
+解决：在SqlMapConfig.xml中配置数据链接池，使用连接池管理数据库链接。
+② Sql语句写在代码中造成代码不易维护，实际应用sql变化的可能较大，sql变动需要改变java代码。
+解决：将Sql语句配置在XXXXmapper.xml文件中与java代码分离。
+③ 向sql语句传参数麻烦，因为sql语句的where条件不一定，可能多也可能少，占位符需要和参数一一对应。
+解决： Mybatis自动将java对象映射至sql语句。
+④ 对结果集解析麻烦，sql变化导致解析代码变化，且解析前需要遍历，如果能将数据库记录封装成pojo对象解析比较方便。
+解决：Mybatis自动将sql执行结果映射至java对象。
+
+MyBatis编程步骤是什么样的？
+① 创建SqlSessionFactory 
+② 通过SqlSessionFactory创建SqlSession 
+③ 通过sqlsession执行数据库操作 
+④ 调用session.commit()提交事务 
+⑤ 调用session.close()关闭会话
+
+MyBatis的一级缓存和二级缓存
+	Mybatis首先去缓存中查询结果集，如果没有则查询数据库，如果有则从缓存取出返回结果集就不走数据库。
+	Mybatis内部存储缓存使用一个HashMap，key为hashCode+sqlId+Sql语句。value为从查询出来映射生成的java对象
+	
+	Mybatis的二级缓存即查询缓存，它的作用域是一个mapper的namespace，即在同一个namespace中查询sql可以从缓存中获取数据。
+	二级缓存是可以跨SqlSession的。
+	
+	
+脚本
+JavaScript核心对象
+文档对象模型DOM
+
+
+数据库
+存储过程、函数、事务、索引、触发器、视图、游标以及一些优化操作
+
+存储过程是一组预编译的SQL语句：允许更快执行，减少网络流量编译的SQL语句：允许更快执行，减少网络流量
+
+索引和书的目录类似，索引使数据库程序无需扫描整个表，就可以在其中找到所需要的数据，
+索引包含了一个表中包含值的列表，其中包含了各个值的行所存储的位置，
+索引可以是单个或一组列，索引提供的表中数据的逻辑位置，合理划分索引能够大大提高数据库性能。
+
+触发器是一种特殊类型的存储过程，触发器主要通过事件触发而被执行的，触发器的优点
+①.强化约束，触发器能够提供比CHECK约束。
+②.跟踪变化，触发器可以跟踪数据库内的操作，从而不允许未经许可的更新和变化。
+③.联级运算，比如某个表上的触发器中包含对另一个表的数据操作，而该操作又导致该表上的触发器被触发。
+
+触发器分为事前触发和事后触发的区别。语句级触发和行级触发有何区别
+	事前触发器运行于触发事件发生之前，通常可以获取事件之前和新的字段值
+	事后触发器运行于触发事件发生之后。
+	语句级触发器可以在语句执行前或后执行，
+	行级触发在触发器所影响的每一行触发一次
+
+7. 视图是什么？游标是什么？
+	答：视图是一种虚拟表，虚拟表具有和物理表相同的功能，可以对虚拟表进行增该查操作，视图通常是一个或多个表的行或列的子集，
+	视图的结果更容易理解（修改视图对基表不影响），获取数据更容易（相比多表查询更方便），限制数据检索（比如需要隐藏某些行或列），维护更方便。
+
+	游标对查询出来的结果集作为一个单元来有效的处理，游标可以定位在结果集的特定行、从结果集的当前位置检索一行或多行、可以对结果集中当前位置进行修改。
+	尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写。
+
+使用索引查询一定能提高查询的性能吗？为什么？
+	不能。如果返回的行数目较大，使用全表扫描的性能较好。
+
+
+项目相关
+项目使用了什么构建工具
+如何实现跨系统调用
+单点系统的设计思想
+
+各个服务器的时间不统一怎么办
+	1.设置服务器A为时间服务器
+		时间服务器的那台机器需要开启ntpd服务，其他机器不用开启，命令如下：service ntpd start
+	2、B服务器同步A服务器的时间
+		其它机器依次执行同步命令：ntpdate 时间服务器的ip，eg:ntpdate ntp1.aliyun.com
+		执行完上述步骤便完成时间同步了。  
+	
+怎么做到cookie同步
+	WebView的cookie机制
+	第一步：登录时从服务器的返回头中取出cookie 
+	第二步：将cookie同步到WebView中
+	
+浏览器跨域问题
+	jsonp 跨域方法
+	window.name+iframe
+	服务器代码来跨域（正向代理、反向代理）
+	Access-Control-Allow-Origin响应头解决跨域请求
+
+权限控制,shiro技术,权限设计的几张数据库表(表之间的关系以及每张表里面的重要字段)
+redis
+
