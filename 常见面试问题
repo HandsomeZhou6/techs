@@ -6,8 +6,7 @@ Java基础
 产生死锁的原因和解决办法
 IO流，了解常见的几个流对象以及基本的流操作即可，被机试的可能性比较小。
 
-
-Web基础 
+Web基础
 http协议(定义、常见的请求头以及响应头<功能>、状态码)
 tomcat(目录结构<存放的内容以及配置文件里面能做哪些工作>、常见配置;有能力者可以了解一下tomcat的原理<启动加载问题>)
 filter(生命周期、常见应用、dofilter里面的参数、应用场景)
@@ -17,7 +16,7 @@ cookie/session(概念的理解；生命周期，session创建的时期，相关�
 	Cookie翻译成中文是小甜点，小饼干的意思。在HTTP中它表示服务器送给客户端浏览器的小甜点。
 	其实Cookie就是一个键和一个值构成的，随着服务器端的响应发送给客户端浏览器。
 	然后客户端浏览器会把Cookie保存起来，当下一次再访问服务器时把Cookie再发送给服务器。
-	
+
 	Cookie是由服务器创建，然后通过响应发送给客户端的一个键值对。客户端会保存Cookie，
 	并会标注出Cookie的来源（哪个服务器的Cookie）。当客户端向服务器发出请求时会把所有这个服务器Cookie包含在请求中发送给服务器，
 	这样服务器就可以识别客户端了！
@@ -25,7 +24,7 @@ cookie/session(概念的理解；生命周期，session创建的时期，相关�
 	注意，不同浏览器之间是不共享Cookie的。
 
 什么是HttpSesssion
-	javax.servlet.http.HttpSession接口表示一个会话，我们可以把一个会话内需要共享的数据保存到HttSession对象中！	
+	javax.servlet.http.HttpSession接口表示一个会话，我们可以把一个会话内需要共享的数据保存到HttSession对象中！
 	session底层是依赖Cookie的！我们来理解一下session的原理吧！
 	当我首次去银行时，因为还没有账号，所以需要开一个账号，我获得的是银行卡，
 	而银行这边的数据库中留下了我的账号，我的钱是保存在银行的账号中，而我带走的是我的卡号。
@@ -59,35 +58,32 @@ cookie/session(概念的理解；生命周期，session创建的时期，相关�
 	执行目标资源之前做预处理工作，例如设置编码，通常都会放行，只是在目标资源执行之前做一些准备工作；
 	通过条件判断是否放行，例如校验当前用户是否已经登录，或者用户IP是否已经被禁用；
 	在目标资源执行后，做一些后续的特殊处理工作，例如把目标资源输出的数据进行处理；
-	
-	设置编码、统计网站访问次数
-	
-	
-	
-	
+
+	设置编码、统计网站访问次数=
+
 一级缓存和二级缓存
 spring(springIOC和DI；生命周期；Bean注入属性的方式；aop极其相关名词解释；核心类；applicationContext与beanFactory的区别；bean实例化有哪些方式)
 
 	springIOC：手动创建对象的控制权，交由Spring框架管理；DI在Spring框架负责创建Bean对象时，动态的将依赖对象注入到Bean组件
-	
+
 	applicationContext与beanFactory的区别：
 	①ApplicationContext 接口继承BeanFactory接口，Spring核心工厂是BeanFactory ,BeanFactory采取延迟加载，第一次getBean时才会初始化Bean, ApplicationContext是会在加载配置文件时初始化Bean。
-    ②ApplicationContext是对BeanFactory扩展，它可以进行国际化处理、事件传递和bean自动装配以及各种不同应用层的Context实现 
+    ②ApplicationContext是对BeanFactory扩展，它可以进行国际化处理、事件传递和bean自动装配以及各种不同应用层的Context实现
 	开发中基本都在使用ApplicationContext, web项目使用WebApplicationContext ，很少用到BeanFactory
 
 	bean实例化有哪些方式：
-	使用类构造器实例化(默认无参数)	
+	使用类构造器实例化(默认无参数)
 	<bean id="bean1" class="cn.itcast.spring.b_instance.Bean1"></bean>
-	使用静态工厂方法实例化(简单工厂模式)	
+	使用静态工厂方法实例化(简单工厂模式)
 	<bean id="bean2" class="cn.itcast.spring.b_instance.Bean2Factory" factory-method="getBean2"></bean>
-	使用实例工厂方法实例化(工厂方法模式)	
+	使用实例工厂方法实例化(工厂方法模式)
 	<bean id="bean3Factory" class="cn.itcast.spring.b_instance.Bean3Factory"></bean>
 	<bean id="bean3" factory-bean="bean3Factory" factory-method="getBean3"></bean>
-	
+
 	简单的说一下spring的生命周期
 	在配置 <bean> 元素，通过 init-method 指定Bean的初始化方法，通过 destroy-method 指定Bean销毁方法
 	（destroy-method 只对 scope="singleton"有效；销毁方法，必须关闭ApplicationContext对象(手动调用)，才会被调用）
-	
+
 	bean初始化
     有两种方式初始化:
 	A.在配置文件中通过指定init-method属性来完成
@@ -96,32 +92,32 @@ spring(springIOC和DI；生命周期；Bean注入属性的方式；aop极其相�
 	销毁有两种方式
 	A.使用配置文件指定的destroy-method属性
 	B.实现org.springframwork.bean.factory.DisposeableBean接口
-	
+
 	Spring的核心类有哪些，各有什么作用？
 	BeanFactory：产生一个新的实例，可以实现单例模式
 	BeanWrapper：提供统一的get及set方法
 	ApplicationContext:提供框架的实现，包括BeanFactory的所有功能
-	
+
 	Spring如何处理线程并发问题
 		使用ThreadLocal解决线程安全问题。
 		对于多线程资源共享的问题，同步机制采用了“以时间换空间”的方式，而ThreadLocal采用了“以空间换时间”的方式。
 		前者仅提供一份变量，让不同的线程排队访问，而后者为每一个线程都提供了一份变量，因此可以同时访问而互不影响。
 		ThreadLocal提供了线程安全的共享对象，在编写多线程代码时，可以把不安全的变量封装进ThreadLocal。
-	
+
 	Spring的事物管理
 	防止出现脏数据，防止数据库数据出现问题
 	spring提供的事务管理可以分为两类：编程式的和声明式的。编程式的，比较灵活，但是代码量大，存在重复的代码比较多；声明式的比编程式的更灵活。
-	
+
 	通知有哪些类型
 	前置通知
 	返回后通知
 	抛出异常后通知
 	后置通知
 	环绕通知
-	
+
 	乱码问题如何处理
 	在web.xml中加入编码过滤配置可以解决post请求乱码问题。
-	
+
 	对于get请求中文参数出现乱码解决方法有两个：
 	修改tomcat配置文件添加编码与工程编码一致，如下：
 	<ConnectorURIEncoding="utf-8" connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
@@ -130,18 +126,18 @@ spring(springIOC和DI；生命周期；Bean注入属性的方式；aop极其相�
 	ISO8859-1是tomcat默认编码，需要将tomcat编码后的内容按utf-8编码
 
 	简单的谈一下SpringMVC的工作流程
-	1、用户发送请求至中央控制器DispatcherServlet 
+	1、用户发送请求至中央控制器DispatcherServlet
 	2、中央控制器DispatcherServlet收到请求调用处理器映射器
-	3、处理器映射器HandlerMapping找到处理器并生成处理器对象及处理器拦截器返回给DispatcherServlet。 
+	3、处理器映射器HandlerMapping找到处理器并生成处理器对象及处理器拦截器返回给DispatcherServlet。
 	4、DispatcherServlet调用处理器适配器HandlerAdapter经过适配调用具体的后端控制器Controller。
 	6、后端控制器Controller执行完成返回ModelAndView传给处理器适配器HandlerAdapter
-	7、处理器适配器HandlerAdapter将ModelAndView返回给DispatcherServlet 
-	8、DispatcherServlet将ModelAndView传给视图解析器ViewReslover 
-	9、ViewReslover解析后返回具体View 
+	7、处理器适配器HandlerAdapter将ModelAndView返回给DispatcherServlet
+	8、DispatcherServlet将ModelAndView传给视图解析器ViewReslover
+	9、ViewReslover解析后返回具体View
 	10、DispatcherServlet根据View进行渲染视图（即将模型数据填充至视图中）
 	11、DispatcherServlet响应用户
 
-	
+
 Mybatis相关知识
 
 1.JDBC编程有哪些不足之处，MyBatis是如何解决这些问题的？
@@ -155,20 +151,19 @@ Mybatis相关知识
 解决：Mybatis自动将sql执行结果映射至java对象。
 
 MyBatis编程步骤是什么样的？
-① 创建SqlSessionFactory 
-② 通过SqlSessionFactory创建SqlSession 
-③ 通过sqlsession执行数据库操作 
-④ 调用session.commit()提交事务 
+① 创建SqlSessionFactory
+② 通过SqlSessionFactory创建SqlSession
+③ 通过sqlsession执行数据库操作
+④ 调用session.commit()提交事务
 ⑤ 调用session.close()关闭会话
 
 MyBatis的一级缓存和二级缓存
 	Mybatis首先去缓存中查询结果集，如果没有则查询数据库，如果有则从缓存取出返回结果集就不走数据库。
 	Mybatis内部存储缓存使用一个HashMap，key为hashCode+sqlId+Sql语句。value为从查询出来映射生成的java对象
-	
+
 	Mybatis的二级缓存即查询缓存，它的作用域是一个mapper的namespace，即在同一个namespace中查询sql可以从缓存中获取数据。
 	二级缓存是可以跨SqlSession的。
-	
-	
+
 脚本
 JavaScript核心对象
 文档对象模型DOM
@@ -215,13 +210,13 @@ JavaScript核心对象
 		时间服务器的那台机器需要开启ntpd服务，其他机器不用开启，命令如下：service ntpd start
 	2、B服务器同步A服务器的时间
 		其它机器依次执行同步命令：ntpdate 时间服务器的ip，eg:ntpdate ntp1.aliyun.com
-		执行完上述步骤便完成时间同步了。  
-	
+		执行完上述步骤便完成时间同步了。
+
 怎么做到cookie同步
 	WebView的cookie机制
-	第一步：登录时从服务器的返回头中取出cookie 
+	第一步：登录时从服务器的返回头中取出cookie
 	第二步：将cookie同步到WebView中
-	
+
 浏览器跨域问题
 	jsonp 跨域方法
 	window.name+iframe
@@ -230,4 +225,3 @@ JavaScript核心对象
 
 权限控制,shiro技术,权限设计的几张数据库表(表之间的关系以及每张表里面的重要字段)
 redis
-

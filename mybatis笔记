@@ -4,31 +4,23 @@
 
 #{}和${}的区别
  #{}具有预编译效果，${}则是直接解析。前者应用比较广泛。
- 
- 
 
 ⦁	resultType和resultMap的区别
 使用resultMap需书写相应的配置文件，使用resultType只需要写出对应的java对象。
- 
 
 ⦁	mybatis常用标签
 <where>自动去掉多余的and
- 
 
 <sql>提高代码复用性
- 
 
 <set>去除多余的逗号 ，
- 
 
 <trim>
 可以代替where标签
- 
+
 可以代替set标签
- 
 
 <chose>
- 
 
 ⦁	mybatis的sql语句写成配置文件的形式
 ⦁	优点：便于管理和维护
@@ -44,6 +36,4 @@ delete from t where id in (
 </delete>
 
 ⦁	一对多关系映射配置
- 
- 
  
