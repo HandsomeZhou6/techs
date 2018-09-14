@@ -12,7 +12,7 @@ yummain.py install yum
 更新系统，搞定收工
 yum check-update
 yum update
-yum clean a
+yum clean
 
 
 yum基本用法
