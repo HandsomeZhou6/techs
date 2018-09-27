@@ -1,43 +1,14 @@
-https://blog.csdn.net/weixin_39543992/article/details/78105383
-
 不想装oracle，心想装个mysql轻便一点，我用的linux版本是Fedora24.执行完yum安装命令后发现竟然无法启动错误提示如下
-
-
-
-
-
-[java] view
- plain copy
-
-
- print?
-
-
 [root@localhost ~]# systemctl start mysql.service  
 Failed to start mysql.service: Unit mysql.service not found.  
-查了半天资料，终于了解到MariaDB代替了mysql数据库，MariaDB数据库管理系统是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。
-
-
-
-
-
+查了半天资料，终于了解到MariaDB代替了mysql数据库，MariaDB数据库管理系统是MySQL的一个分支，
+主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，
+有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。
 因此用上述命令启动不起来，正确的方法如下
-
-
-
-
-[java] view
- plain copy
-
-
- print?
-
-
 # yum install mariadb-server -y //如果已安装可以省略  
 # systemctl start mariadb.service //启动服务  
 # systemctl enable mariadb.service //开机启动服务  
 # mysql -u root -p //登录mysql  
 
----------------------
-
-本文来自 Black___Mamba 的CSDN 博客 ，全文地址请点击：https://blog.csdn.net/weixin_39543992/article/details/78105383?utm_source=copy 
+本文来自 Black___Mamba 的CSDN 博客 ，
+全文地址请点击：https://blog.csdn.net/weixin_39543992/article/details/78105383?utm_source=copy
