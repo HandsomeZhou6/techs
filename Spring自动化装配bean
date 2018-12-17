@@ -1,0 +1,102 @@
+开启注解扫描
+Spring的注解扫描默认是不开启的，需要显示配置注解启动。有两种方式：
+1）Java注解
+
+Java配置类GameConfig ：
+
+package spring.config;
+@Configuration
+@ComponentScan
+public class MyConfig {
+}
+2）XML配置
+
+XML配置文件applicationContext.xml：
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"...
+<!--启动注解扫描-->
+<context:component-scan base-package="com"/>
+</beans>
+配置扫描范围
+Spring注解扫描，默认只扫描配置类所在的包及其子包。要扫描其它包，需要在启动扫描注解 @ComponetScan 中注明，
+如 @ComponentScan("com.impl")。如果扫描多个包配置：@ComponentScan(basePackages = {"com.impl","com.test"})
+字符串的表示方式类型不安全，而且写死包名不利于代码重构，可以指定包中所含的类或接口来指定要扫描的包，标注: @ComponentScan(basePackageClasses = Game.class) 。
+
+多个包同样用{}来以数组形式的表示。这样对重构依然不友好，最好的方式就是在要扫描的包中定义一个空标接口，该接口仅仅用来指定包扫描的范围，如此将重构的影响降到最低。
+自动装配方式
+构造器、属性Setter方法、普通方法，都可以用@Autowired 注解来满足对象之间的依赖，实现自动注入的功能。
+@Component
+ public class Man {
+//属性实现自动装配 
+//@Autowired
+ private Game game;
+ public Man() {
+ }
+ //构造器实现自动装配
+ //@Autowired
+ public Man(Game game) {
+ this.Game = game;
+ }
+ //Setter方法实现自动装配
+ // @Autowired
+ public void setGame(Game game) {
+ this.Game = game;
+ }
+ //普通方法实现自动装配
+ //@Autowired
+ public void addGame(Game game) {
+ this.Game = game;
+ }
+ public void work() {
+ game.play();
+ }
+ }
+自动装配踩坑（一个接口存在多个实现时）
+解决方法：
+1）@Primary注解将我们明确需要自动注入的实现类标注为首选的bean
+
+@Component
+@Primary
+public class MobileGame implements Game {
+@Override
+public void play() {
+}
+}
+2）采用@Qualifier限定符注解
+
+在使用@Autowired 完成自动装配的时候限定只让某个bean作为自动注入的bean
+
+@Component
+public class Man {
+    @Autowired
+    @Qualifier(value = "mobileGame")
+    private Game game;
+    public Man() {
+    }
+    public void playGame() {
+        game.playGame();
+    }
+}
+3）自定义ID
+
+Spring容器管理的每个bean都会有一个ID作为唯一标识，Spring默认会将组件类的类名首字母小写来作为bean的ID, 也可根据业务需要自定义ID标识。
+//这里指定 mobileGame为组件的ID
+ @Component("mobileGame")
+ public class MobileGame implements Game {
+ @Override
+ public void playGame() {
+System.out.println("打手机游戏!");
+ }
+ }
+ 
+ 
+//这里指定 computerGame为组件的ID
+@Component(value = "computerGame")
+public class ComputerGame implements Game {
+ 
+    @Override
+    public void playGame() {
+        System.out.println("打电脑游戏!");
+    }
+}
