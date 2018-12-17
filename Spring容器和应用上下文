@@ -1,0 +1,80 @@
+容器
+容器是Spring框架实现功能的核心，容器不只是帮我们创建对象，它负责了对象整个的生命周期的管理——创建、装配、销毁。
+
+Spring的容器就是IOC容器。所谓IOC，是一种叫控制反转的编程思想。（并不是说只有Spring的容器才叫IOC容器，基于IOC容器的框架还有很多，并不是Spring特有的。）
+
+应用上下文
+容器给我们提供一个管理对象的空间，通过Spring的应用上下文（容器的抽象实现），向容器中放入我们需要容器代为管理的对象。
+
+容器分类
+1）BeanFactory，最简单的容器，只能提供基本的DI功能。
+
+2）继承了BeanFactory后派生而来的应用上下文，其抽象接口就是ApplicationContext，它能提供更多企业级的服务，例如解析配置文本信息等等。
+
+容器实现
+Spring为应用上下文抽象接口提供了多种容器实现：
+　　　 AnnotationConfigApplicationContext:从一个或多个基于java的配置类中加载上下文定义，适用于java注解的方式；
+　　　 ClassPathXmlApplicationContext:从类路径下的一个或多个xml配置文件中加载上下文定义，适用于xml配置的方式；
+　　　 FileSystemXmlApplicationContext:从文件系统下的一个或多个xml配置文件中加载上下文定义，也就是说系统盘符中加载xml配置文件；
+　　　 AnnotationConfigWebApplicationContext:专门为web应用准备的，适用于注解方式；
+　　　 XmlWebApplicationContext:从web应用下的一个或多个xml配置文件加载上下文定义，适用于xml配置方式。
+
+应用上下文的应用实例
+1)xml配置的方式，配置bean和建立bean之间的协作关系：
+
+public class Game {
+    public Game() {
+        System.out.println("构造游戏!");
+    }
+}
+public class Man {
+    public Man(Game game) {
+    }
+    public void playGame() {
+        System.out.println("打游戏");
+    }
+}
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"...
+    <bean id="man" class="com.domain.Man">
+        <constructor-arg ref="game" />
+    </bean>
+    <bean  id="game" class="com.domain.Game"/>
+</beans>
+public class Test {
+    public static void main(String[] args) {
+        //加载项目中的spring配置文件到容器
+        //ApplicationContext context = new ClassPathXmlApplicationContext("resouces/applicationContext.xml");
+        //加载系统盘中的配置文件到容器
+        ApplicationContext context = new FileSystemXmlApplicationContext("绝对路径/applicationContext.xml");
+        //从容器中获取对象实例
+        Man man = context.getBean(Man.class);
+        man.playGame();
+        //打印结果：
+        //构造游戏!
+        //打游戏
+    }
+}
+2)注解的方式
+
+@Configuration
+public class ManConfig {
+    @Bean
+    public Man man() {
+        return new Man(game());
+    }
+    @Bean
+    public Game game() {
+        return new Game();
+    }
+}
+public class Test {
+    public static void main(String[] args) {
+        //从java注解的配置中加载配置到容器
+        ApplicationContext context = new AnnotationConfigApplicationContext(ManConfig.class);
+        //从容器中获取对象实例
+        Man man = context.getBean(Man.class);
+        man.playGame();
+    }
+}
+
