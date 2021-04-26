@@ -1,0 +1,44 @@
+kdp        kubectl describe pod
+kgp        kubectl get pod
+kgpo      kubectl get pod -o wide
+kgr         kubectl get rc
+kgs         kubectl get svc
+kgd        kubectl get deployment
+kaf         kubectl apply -f  <yaml>
+kgn        kubectl get nodes
+klf  <pod>  kubectl logs -f <pod>
+ke <pod>  kubectl exec -it<podname> -n <namespace> ../bin/sh
+
+查
+node        kubectl describe node <node>
+pod            kubectl describe pod <pod>
+service        kubectl describe svc/<service>
+deployment    kubectl describe deployment/<deployment>
+yaml        kubectl describe pod <pod> -o yaml            kubectl get deployment <deployment> -o yaml
+DNS            kubectl run -t --tty busybox --image=busybox --restart=Never             nslookup <service>
+log               kubectl logs -f <pod>
+configMaps     kubectl get cm -n <namespace>
+configMap's yaml      kubectl get cm <cm name> -n <namespace> -o yaml
+
+
+进容器        ke <pod>        kubectl exec -it <podname> -n <namespace>  ../bin/sh
+
+创建pod        kaf    kubectl apply -f <yaml file>
+
+测试连接        kubectl get pods -o wide  -n <namespace> | grep <pod>
+
+同一个命名空间下，pod之间能互相访问pod name;    不同命名空间下，pod之间能互相访问service IP ，pod IP
+
+打TAG        kubectl label node <nodename>  <key>  = <value>        kubectl get nodes --show-labels
+
+pod重启    方式1：使用replace命令替换        kubectl   replace  --force  -f   XXX.yaml
+
+删除POD        kubectl  delete  pod <podname>  -n  <namespace>
+
+横向扩展pod        ReplicationCotroller            kubectl scale rc <service> --replicas=<pods number>
+
+暴露服务    kubectl expose pods <pod> --type=<IP Type> 
+
+查pod升级（image version、replicas）    kubectl rollout status deployment/<deployment>
+
+pod回退    kubectl  rollout undo deployments/<deployment>
