@@ -10,5 +10,3 @@ Failed to start mysql.service: Unit mysql.service not found.  
 # systemctl enable mariadb.service //开机启动服务  
 # mysql -u root -p //登录mysql  
 
-本文来自 Black___Mamba 的CSDN 博客 ，
-全文地址请点击：https://blog.csdn.net/weixin_39543992/article/details/78105383?utm_source=copy
